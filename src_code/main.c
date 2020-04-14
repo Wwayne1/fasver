@@ -24,4 +24,7 @@ int main (int args, char *argc[])
 
 		//初始化套接字开始监听
 		int listen_fd = socket_bind_listen(conf.port);
+
+		//设置为socket非阻塞
+		int rc = make_socket_non_blocking(listen_fd);
 }
