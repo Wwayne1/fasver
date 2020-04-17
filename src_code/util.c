@@ -2,7 +2,7 @@
  *Author*        :wayne
  *Description*   :配置结构信息
  *Created Time*  : Wed 08 Apr 2020 11:42:07 AM CST
-
+ * Ended  Time*  : Tue 14 Apr 2020 11:00:49 PM CST
 **************************************************/
 
 #include <sys/socket.h>
@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "util.h"
+#include "http_request.h"
+#include "epoll.h"
 
 int read_conf(char* filename, conf_t* conf)
 {
@@ -125,4 +127,25 @@ int make_socket_non_blocking(int fd)
 		flag |= O_NONBLOCK;
 		if (fcntl(fd, F_SETFL, flag) == -1)
 				return -1;
+}
+
+void accept_connection(int listen_fd, int epoll_fd, char* path)
+{
+		struct sockaddr_in client_addr;
+		memset(&client_addr, 0, sizeof(struct sockaddr_in));
+		socklen_t client_addr_len = 0;
+		int accept_fd = accept(listen_fd, (struct sockaddr*)&client_addr, &client_addr_len);
+		if (accept_fd == -1)
+				perror("accept");
+
+		//设为非阻塞模式
+		int rc = make_socket_non_blocking(accept_fd);
+
+		//申请tk_http_request_t类型节点并初始化
+		http_request_t* request = (http_request_t*)malloc(sizeof(http_request_t));
+		init_request_t(request, accept_fd, epoll_fd, path);
+
+    // 文件描述符可以读，边缘触发(Edge Triggered)模式，保证一个socket连接在任一时刻只被一个线程处理
+		epoll_add(epoll_fd, accept_fd, request, (EPOLLIN | EPOLLET |EPOLLONESHOT));
+
 }
