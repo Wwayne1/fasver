@@ -11,6 +11,7 @@
 
 #define DEFAULT_CONFIG "fasver.conf"
 
+extern struct epoll_event *events;
 char *conf_file = DEFAULT_CONFIG;
 conf_t conf;
 
@@ -33,4 +34,17 @@ int main (int args, char *argc[])
 		http_request_t* request = (http_request_t*)malloc(sizeof(http_request_t));
 		//init_request_t(request, listen_fd, epoll_fd, conf.root);
 		epoll_add(epoll_fd, listen_fd, request, (EPOLLIN | EPOLLET));
+
+		//初始化线程池
+		threadpool_t *tp = threadpool_init(conf.thread_num);
+
+		while(1)
+		{
+				//调用epoll_wait函数，返回接收到事件的数量
+				int events_num = epoll_wait(epoll_fd, events, MAXEVENTS, -1);
+
+				//遍历events数组，根据监听种类及描述符类型分发操作
+				handle_events(epoll_fd, listen_fd, events, events_num, conf.root, tp);
+		}
+
 }
