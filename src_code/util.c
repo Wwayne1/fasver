@@ -141,7 +141,7 @@ void accept_connection(int listen_fd, int epoll_fd, char* path)
 		//设为非阻塞模式
 		int rc = make_socket_non_blocking(accept_fd);
 
-		//申请tk_http_request_t类型节点并初始化
+		//申请http_request_t类型节点并初始化
 		http_request_t* request = (http_request_t*)malloc(sizeof(http_request_t));
 		init_request_t(request, accept_fd, epoll_fd, path);
 

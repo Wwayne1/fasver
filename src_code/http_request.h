@@ -15,6 +15,8 @@ typedef struct http_request
 		char* root;
 		int fd;
 		int epoll_fd;
+
+		void* timer;
 }http_request_t;
 
 int init_request_t(http_request_t* request, int fd, int epoll_fd, char* path);
