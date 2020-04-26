@@ -38,10 +38,19 @@ int main (int args, char *argc[])
 		//初始化线程池
 		threadpool_t *tp = threadpool_init(conf.thread_num);
 
+		//初始化计时器
+		timer_init();
+
 		while(1)
 		{
+				//得到最近且未删除时间和当前时间差值（等待时间）
+				int time = find_timer();
+
 				//调用epoll_wait函数，返回接收到事件的数量
 				int events_num = epoll_wait(epoll_fd, events, MAXEVENTS, -1);
+
+				//处理已经超时的请求
+				handle_expire_timers();
 
 				//遍历events数组，根据监听种类及描述符类型分发操作
 				handle_events(epoll_fd, listen_fd, events, events_num, conf.root, tp);
