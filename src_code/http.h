@@ -15,15 +15,24 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/mman.h>
 #include <fcntl.h>
 #include "http_request.h"
 #include "util.h"
 #include "epoll.h"
 #include "timer.h"
 #include "rio.h"
+#include "http_parse.h"
 
 #define MAXLINE 8192
 #define SHORTLINE 512
+
+#define str3_cmp(m, c0, c1, c2, c3)                                       \
+    *(ui2_t *) m == ((c3 << 24) | (c2 << 16) | (c1 << 8) | c0)
+#define str3Ocmp(m, c0, c1, c2, c3)                                       \
+    *(ui2_t *) m == ((c3 << 24) | (c2 << 16) | (c1 << 8) | c0)
+#define str4cmp(m, c0, c1, c2, c3)                                        \
+    *(uint32_t *) m == ((c3 << 24) | (c2 << 16) | (c1 << 8) | c0)
 
 //用key-value表示mime_type_t
 typedef struct mime_type
