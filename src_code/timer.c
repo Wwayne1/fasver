@@ -101,7 +101,7 @@ void add_timer(http_request_t* request, size_t timeout, timer_handler_pt handler
 		time_update();
 		//申请新的timer_t节点，并加入到http_request_t的timer下
 		timer_tp* timer_node = (timer_tp*)malloc(sizeof(timer_tp));
-		//request->timer = timer_node;
+		request->timer = timer_node;
 
 		//加入时设置超时阈值，删除信息等
 		timer_node->key = current_msec + timeout;

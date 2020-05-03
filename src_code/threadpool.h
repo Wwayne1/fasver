@@ -49,6 +49,6 @@ typedef enum
 
 threadpool_t* threadpool_init(int thread_num);
 int threadpool_add(threadpool_t* pool, void (*func)(void *), void* arg);
-int thraedpool_destroy(threadpool_t* pool, int gracegul);
+int threadpool_destroy(threadpool_t* pool, int gracegul);
 
 #endif

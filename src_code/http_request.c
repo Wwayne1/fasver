@@ -44,7 +44,7 @@ static int http_process_if_modified_since(http_request_t* request, http_out_t* o
 		(void) len;
 		struct tm tm;
 		//转换data格式为GMT格式
-		if (strptime(data, "%a, %b %d %Y %H:%M:%S GMT", &tm) == (char*)NULL)
+		if (strptime(data, "%a, %d %b %Y %H:%M:%S GMT", &tm) == (char*)NULL)
 		{
 				return 0;
 		}

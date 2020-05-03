@@ -44,11 +44,6 @@ int sink(pq_t *pq, size_t k)
 		return k;
 }
 
-/*int pq_sink(pq_t *pq, size_t i)*/
-/*{*/
-		/*return sink(pq, i);*/
-/*}*/
-
 int pq_init(pq_t *pq, pq_comparator_pt comp, size_t size)
 {
 		//为pq_t节点的pq分配(void *)指针

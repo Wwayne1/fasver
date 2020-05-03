@@ -14,7 +14,7 @@ int epoll_create(int flags)
 		int epoll_fd = epoll_create1(flags);
 		if (epoll_fd == -1)
 				return -1;
-		events = (struct epoll_event*)malloc(sizeof(struct epoll_event*) * MAXEVENTS);
+		events = (struct epoll_event*)malloc(sizeof(struct epoll_event) * MAXEVENTS);
 		return epoll_fd;
 }
 
@@ -54,6 +54,7 @@ int epoll_del(int epoll_fd, int fd, http_request_t* request, int events)
 //返回活跃事件数
 int epoll_wait(int epoll_fd, struct epoll_event* events, int max_events, int timeout)
 {
+		printf("epoll wait starting...\n");
 		int ret_count = epoll_wait(epoll_fd, events, max_events, timeout);
 		return ret_count;
 }

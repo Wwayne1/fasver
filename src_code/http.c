@@ -237,7 +237,7 @@ void do_request(void* ptr)
 						goto err;
 
 				//分配并初始化响应报文结构
-				http_out_t* out = (http_out_t*)malloc(sizeof(http_out_t));
+				http_out_t* out = (http_out_t *)malloc(sizeof(http_out_t));
 				init_out_t(out, fd);
 
 				//解析URI，获取文件名

@@ -100,7 +100,7 @@ int socket_bind_listen(int port)
 		bzero((char*)&server_addr, sizeof(server_addr));
 		server_addr.sin_family = AF_INET;
 		server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-		server_addr.sin_port = htonl((unsigned short)port);
+		server_addr.sin_port = htons((unsigned short)port);
 		if (bind(listen_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
 				return -1;
 
@@ -148,4 +148,6 @@ void accept_connection(int listen_fd, int epoll_fd, char* path)
     // 文件描述符可以读，边缘触发(Edge Triggered)模式，保证一个socket连接在任一时刻只被一个线程处理
 		epoll_add(epoll_fd, accept_fd, request, (EPOLLIN | EPOLLET |EPOLLONESHOT));
 
+		//新增时间轮
+		add_timer(request, TIMEOUT_DEFAULT, http_close_conn);
 }
