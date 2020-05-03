@@ -52,10 +52,11 @@ int epoll_del(int epoll_fd, int fd, http_request_t* request, int events)
 }
 
 //返回活跃事件数
-int epoll_wait(int epoll_fd, struct epoll_event* events, int max_events, int timeout)
+int fas_epoll_wait(int epoll_fd, struct epoll_event* events, int max_events, int timeout)
 {
 		printf("epoll wait starting...\n");
 		int ret_count = epoll_wait(epoll_fd, events, max_events, timeout);
+		printf("ret_count = %d\n", ret_count);
 		return ret_count;
 }
 

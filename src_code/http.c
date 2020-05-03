@@ -11,7 +11,7 @@
 static const char* get_file_type(const char *type);
 static void parse_uri(char *uri, int length, char *filename, char *query);
 static void do_error(int fd, char *cause, char *err_num, char *short_msg, char *long_msg);
-//static void serve_static(int fd, char *filename, size_t filesize, http_out *out);
+static void serve_static(int fd, char *filename, size_t filesize, http_out_t *out);
 
 static char *ROOT = NULL;
 
@@ -35,7 +35,7 @@ mime_type_t mime[] =
 		{".gz", "application/x-gzip"},
 		{".tar", "application/x-tar"},
 		{".css", "text/css"},
-		{NULL , "text/plain"},
+		{NULL , "text/plain"}
 };
 
 const char* get_file_type(const char *type)

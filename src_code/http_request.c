@@ -12,7 +12,7 @@ http_header_handle_t http_headers_in[] =
 {
 		{"Host", http_process_ignore},
 		{"Connection", http_process_connection},
-		{"If-Modified_Since", http_process_if_modified_since},
+		{"If-Modified-Since", http_process_if_modified_since},
 		{"", http_process_ignore}
 };
 
@@ -29,7 +29,7 @@ static int http_process_ignore(http_request_t* request, http_out_t* out, char* d
 static int http_process_connection(http_request_t* request, http_out_t* out, char* data, int len)
 {
 		(void) request;
-		//记录请求是否为keep
+		//记录请求是否为keep-alive
 		if (strncasecmp("keep-alive", data, len) == 0)
 		{
 				out->keep_alive = 1;
@@ -93,6 +93,7 @@ int init_request_t(http_request_t* request, int fd, int epoll_fd, char* path)
 		request->last = 0;
 		request->state = 0;
 		request->root = path;
+    INIT_LIST_HEAD(&(request->list));
 		return 0;
 }
 

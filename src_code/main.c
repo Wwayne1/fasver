@@ -15,7 +15,7 @@ extern struct epoll_event *events;
 char *conf_file = DEFAULT_CONFIG;
 conf_t conf;
 
-int main (int args, char *argc[])
+int main (int argc, char *argv[])
 {
 		//读取配置文件
 		read_conf(conf_file, &conf);
@@ -53,7 +53,7 @@ int main (int args, char *argc[])
 				printf("find timer finished...\n");
 
 				//调用epoll_wait函数，返回接收到事件的数量
-				int events_num = epoll_wait(epoll_fd, events, MAXEVENTS, -1);
+				int events_num = fas_epoll_wait(epoll_fd, events, MAXEVENTS, -1);
 				printf("epoll wait finished...\n");
 
 				//处理已经超时的请求
