@@ -20,7 +20,7 @@ typedef struct timer
 {
 		size_t key;			//标记超时时间
 		int deleted;		//标记是否被删除
-		timer_handler_pt handler;			//超时处理，add时指定
+		timer_handler_pt handler;			//回调函数
 		http_request_t* request;			//指向对应的request请求
 }timer_tp;
 
